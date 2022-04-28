@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% block title %}
+  <title> 
+    Записи сообщества 
+    {% for group in page_obj %}
+    {% if forloop.last %}
+    {{ group.group.title }}
+    {% endif %}
+    {% endfor %}
+  </title>
+{% endblock %}
+{% block content %}
+  <main>
+    <!-- класс py-5 создает отступы сверху и снизу блока -->
+    <div class="container py-5">
+      {% for group in page_obj %}
+      {% if forloop.last %}
+      <h1>{{ group.group }}</h1>
+      <p>{{ group.group.description }}</p>
+      {% endif %}
+      {% endfor %}
+      <article>
+        {% for group in page_obj %}
+          <ul>
+            <li>
+              Автор:
+              {% if group.author.get_full_name %}
+              {{ group.author.get_full_name }}
+              {% else %}
+              {{ group.author }}
+              {% endif %}
+            </li>
+            <li>
+              Дата публикации: {{ group.pub_date|date:"d E Y" }}
+            </li>
+          </ul> 
+          {% thumbnail group.image "960x339" crop="center" upscale=True as im %}
+          <img class="card-img my-2" src="{{ im.url }}">
+          {% endthumbnail %}
+          <p>{{ group.text }}</p>
+        {% endfor %}
+        {% include 'includes/paginator.html' %}
+      </article>
+      <!-- под последним постом нет линии -->
+    </div>  
+  </main>
+{% endblock %} 
