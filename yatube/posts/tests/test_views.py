@@ -87,6 +87,10 @@ class PostPages(TestCase):
         self.authorized_client_2.force_login(
             self.user_follower,
         )
+        self.authorized_client_3 = Client()
+        self.authorized_client_3.force_login(
+            self.user_2,
+        )
 
     def test_pages_uses_correct_template(
         self
