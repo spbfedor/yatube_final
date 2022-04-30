@@ -1,11 +1,10 @@
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import CommentForm, PostForm
 from .models import Follow, Group, Post, User
-
-NAMBER_OF_POSTS = 10
 
 
 def index(
@@ -16,7 +15,7 @@ def index(
     ).all()
     paginator = Paginator(
         post_list,
-        NAMBER_OF_POSTS
+        settings.NAMBER_OF_POSTS
     )
     page_number = request.GET.get(
         "page"
@@ -25,10 +24,8 @@ def index(
         page_number
     )
     template = "posts/index.html"
-    title = "Последние обновления на сайте"
     context = {
         "page_obj": page_obj,
-        "title": title,
     }
     return render(
         request,
@@ -51,7 +48,7 @@ def group_posts(
     )
     paginator = Paginator(
         post_list,
-        NAMBER_OF_POSTS
+        settings.NAMBER_OF_POSTS
     )
     page_number = request.GET.get(
         "page"
@@ -85,7 +82,7 @@ def profile(
     )
     paginator = Paginator(
         post_list,
-        NAMBER_OF_POSTS
+        settings.NAMBER_OF_POSTS
     )
     page_number = request.GET.get(
         "page"
@@ -98,9 +95,8 @@ def profile(
 
     following = False
     if request.user.is_authenticated:
-        following = Follow.objects.filter(
-            user=request.user,
-            author=author
+        following = author.following.filter(
+            user=request.user
         )
     context = {
         "post_list": post_list,
@@ -124,7 +120,7 @@ def post_detail(
         Post,
         pk=post_id
     )
-    post_list = Post.objects.filter(
+    post_list = Post.objects.get(
         pk=post_id
     )
     count = one_post.author.posts.count()
@@ -249,7 +245,7 @@ def follow_index(
     )
     paginator = Paginator(
         post_list,
-        NAMBER_OF_POSTS
+        settings.NAMBER_OF_POSTS
     )
     page_number = request.GET.get(
         "page"
@@ -257,10 +253,8 @@ def follow_index(
     page_obj = paginator.get_page(
         page_number
     )
-    title = "Последние обновления в ленте"
     context = {
         "page_obj": page_obj,
-        "title": title,
     }
     return render(
         request,

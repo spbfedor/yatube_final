@@ -157,3 +157,6 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
     }
 }
+
+# CONSTANTS
+NAMBER_OF_POSTS = 10

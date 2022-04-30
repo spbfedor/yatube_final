@@ -9,15 +9,20 @@ from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
 from ..models import Comment, Follow, Group, Post
-from ..views import NAMBER_OF_POSTS
 
 User = get_user_model()
 
-TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=settings.BASE_DIR)
+TEMP_MEDIA_ROOT = tempfile.mkdtemp(
+    dir=settings.BASE_DIR
+)
 
 
-@override_settings(MEDIA_ROOT=TEMP_MEDIA_ROOT)
-class PostPages(TestCase):
+@override_settings(
+    MEDIA_ROOT=TEMP_MEDIA_ROOT
+)
+class PostPages(
+    TestCase
+):
     @classmethod
     def setUpClass(
         cls
@@ -402,8 +407,12 @@ class PostPages(TestCase):
             0
         ]
         verification_dict = {
-            follow.user: form_data['user'],
-            follow.author: form_data['author']
+            follow.user: form_data[
+                'user'
+            ],
+            follow.author: form_data[
+                'author'
+            ]
         }
 
         for actual, expected in verification_dict.items():
@@ -479,7 +488,7 @@ class PaginatorViewsTest(TestCase):
                     'page_obj'
                 ]
             ),
-            NAMBER_OF_POSTS
+            settings.NAMBER_OF_POSTS
         )
 
     def test_second_page_contains_three_records(
@@ -496,5 +505,5 @@ class PaginatorViewsTest(TestCase):
                     'page_obj'
                 ]
             ),
-            Post.objects.count() - NAMBER_OF_POSTS
+            Post.objects.count() - settings.NAMBER_OF_POSTS
         )
