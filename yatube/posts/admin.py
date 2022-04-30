@@ -49,7 +49,8 @@ class GroupAdmin(
 
 
 admin.site.register(
-    Group
+    Group,
+    GroupAdmin
 )
 
 
@@ -73,7 +74,8 @@ class CommentAdmin(
 
 
 admin.site.register(
-    Comment
+    Comment,
+    CommentAdmin
 )
 
 
@@ -87,5 +89,5 @@ class FollowAdmin(
 
 
 admin.site.register(
-    Follow
+    Follow, FollowAdmin
 )

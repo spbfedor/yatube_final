@@ -333,7 +333,7 @@ class PostPages(
     def the_comment_appears_on_the_page_of_the_post(
         self
     ):
-        response = self.authorized_client_1.get(
+        response = self.authorized_client_1.post(
             reverse(
                 'app_posts:post_detail',
                 kwargs={

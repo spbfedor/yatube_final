@@ -120,9 +120,7 @@ def post_detail(
         Post,
         pk=post_id
     )
-    post_list = Post.objects.get(
-        pk=post_id
-    )
+    post_list = Post.objects.all()
     count = one_post.author.posts.count()
     form = CommentForm(
         request.POST or None
