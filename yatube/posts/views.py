@@ -4,7 +4,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import CommentForm, PostForm
-from .models import Follow, Group, Post, User
+from .models import Group, Post, User
 
 
 def index(
@@ -271,7 +271,7 @@ def profile_follow(
         username=username
     )
     if request.user != author:
-        Follow.objects.get_or_create(
+        request.user.follower.get_or_create(
             user=request.user,
             author=author
         )
@@ -290,11 +290,13 @@ def profile_unfollow(
         User,
         username=username
     )
-    follow_obj = Follow.objects.filter(
+    follow_obj = author.following.filter(
         user=request.user,
         author=author
     )
-    follow_obj.delete()
+    if follow_obj.exists():
+        follow_obj.delete()
+
     return redirect(
         'app_posts:profile',
         username
